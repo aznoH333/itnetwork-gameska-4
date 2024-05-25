@@ -187,7 +187,7 @@ void stopWorld(){
 }
 
 bool collidesWithTerrain(float x, float y, float w, float h){
-    if (y + h > GROUND_START){
+    if (y + h > GROUND_START || y < 0){
         return true;
     }else{
         // check pipes
