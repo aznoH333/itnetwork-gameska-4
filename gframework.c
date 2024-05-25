@@ -11,6 +11,7 @@ const int SCREEN_HEIGHT = 720;
 const char* WINDOW_NAME = "template window";
 const int DEFAULT_SPRITE_SIZE = 32;
 const float DEFAULT_CAMERA_ZOOM = 2.0f;
+const int SPRITE_ORIGIN_OFFSET = DEFAULT_SPRITE_SIZE >> 1;
 
 
 //------------------------------------------------------------------------------------
@@ -113,13 +114,26 @@ void updateCamera(){
 //------------------------------------------------------
 // drawing
 //------------------------------------------------------
-void drawC(int spriteIndex, int x, int y, Color c){
+
+
+void drawRC(int spriteIndex, int x, int y, float rotation, Color c){
 	Rectangle src = {(spriteIndex % loadedSheet.width) * DEFAULT_SPRITE_SIZE, floor((float)spriteIndex / (float)loadedSheet.width) *
 	DEFAULT_SPRITE_SIZE, DEFAULT_SPRITE_SIZE, DEFAULT_SPRITE_SIZE};
-	Rectangle dest = {x, y, DEFAULT_SPRITE_SIZE, DEFAULT_SPRITE_SIZE};
-	Vector2 origin = {0.0f,0.0f};
+	Rectangle dest = {x + SPRITE_ORIGIN_OFFSET, y + SPRITE_ORIGIN_OFFSET, DEFAULT_SPRITE_SIZE, DEFAULT_SPRITE_SIZE};
+	Vector2 origin = {SPRITE_ORIGIN_OFFSET, SPRITE_ORIGIN_OFFSET};
 
-	DrawTexturePro(loadedSheet.spriteSheetTexture, src, dest, origin, 0.0f, c);
+
+
+	DrawTexturePro(loadedSheet.spriteSheetTexture, src, dest, origin, rotation, c);
+
+}
+
+void drawR(int spriteIndex, int x, int y, float rotation){
+	drawRC(spriteIndex, x, y, rotation, WHITE);
+}
+
+void drawC(int spriteIndex, int x, int y, Color c){
+	drawRC(spriteIndex, x, y, 0.0f, c);
 }
 
 void draw(int spriteIndex, int x, int y){	
